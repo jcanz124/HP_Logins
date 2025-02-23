@@ -1,6 +1,5 @@
-/* General Styles */
 body {
-    background-color: #ADD8E6; /* Lighter Sky Blue */
+    background-color: #ADD8E6; 
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
@@ -39,7 +38,6 @@ th, td {
     color: white; 
 }
 
-/* Header */
 #header {
     display: flex;
     align-items: center;
@@ -65,7 +63,6 @@ th, td {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Input & Buttons */
 #input-container { 
     display: flex; 
     align-items: center; 
@@ -84,7 +81,6 @@ button {
     cursor: pointer; 
 }
 
-/* Specific Button Colors */
 #downloadButton {
     background-color: green;
     color: white;
@@ -105,7 +101,6 @@ button {
     border-radius: 5px;
 }
 
-/* Logout Button */
 #logoutButton {
     position: fixed;
     bottom: 10px;
@@ -119,7 +114,6 @@ button {
     border-radius: 5px;
 }
 
-/* Login Popup */
 #loginModal {
     position: fixed;
     top: 0; 
