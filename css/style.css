@@ -16,11 +16,12 @@ input, button {
     font-size: 16px;
     border-radius: 5px;
     border: none;
+    width: 100%;
+    max-width: 250px;
 }
 
 input {
     border: 2px solid #007BFF;
-    width: 200px;
     text-align: center;
     outline: none;
 }
@@ -29,26 +30,12 @@ button {
     cursor: pointer;
     transition: 0.3s;
     font-weight: bold;
+    width: 100%;
+    max-width: 200px;
 }
 
-/* Button Colors */
 button:hover {
     opacity: 0.8;
-}
-
-#downloadButton {
-    background-color: #28A745;
-    color: white;
-}
-
-#clearButton {
-    background-color: #DC3545;
-    color: white;
-}
-
-#submitButton {
-    background-color: #007BFF;
-    color: white;
 }
 
 /* Header Styling */
@@ -68,6 +55,7 @@ button:hover {
 
 #logo {
     height: 60px;
+    max-width: 150px;
 }
 
 #clock-container {
@@ -82,7 +70,8 @@ button:hover {
 
 /* Table Styling */
 table {
-    width: 60%;
+    width: 100%;
+    max-width: 800px;
     margin: auto;
     border-collapse: collapse;
     margin-top: 20px;
@@ -92,10 +81,25 @@ table {
     overflow: hidden;
 }
 
+/* Make table scrollable on mobile */
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: auto;
+        display: block;
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        min-width: 600px;
+    }
+}
+
 th, td {
     border: 1px solid #ddd;
     padding: 12px;
     text-align: center;
+    font-size: 14px;
 }
 
 th {
@@ -122,10 +126,22 @@ tbody tr:nth-child(even) {
 #input-container {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 20px;
+    width: 100%;
+}
+
+/* Make input fields stack on small screens */
+@media (max-width: 600px) {
+    #input-container {
+        flex-direction: column;
+    }
+
+    input {
+        width: 90%;
+    }
 }
 
 /* Login Modal */
@@ -147,23 +163,8 @@ tbody tr:nth-child(even) {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-#loginBox input {
-    display: block;
     width: 90%;
-    margin: 10px auto;
-    padding: 10px;
-    border: 2px solid #007BFF;
-    border-radius: 5px;
-}
-
-#loginBox button {
-    background: #007BFF;
-    color: white;
-    padding: 12px;
-    width: 100%;
-    border-radius: 5px;
+    max-width: 400px;
 }
 
 /* Logout Button */
@@ -177,4 +178,14 @@ tbody tr:nth-child(even) {
     cursor: pointer;
     font-size: 16px;
     border-radius: 8px;
+}
+
+/* Responsive Logout Button for Mobile */
+@media (max-width: 768px) {
+    #logoutButton {
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
 }
