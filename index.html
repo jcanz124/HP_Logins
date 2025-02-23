@@ -1,0 +1,58 @@
+<!-- Produced by: Joshua Canono 02/19/2025 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Collector</title>
+
+    <!-- Link to External CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+
+    <!-- SheetJS (XLSX) for Excel Export -->
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <!-- Login Modal -->
+    <div id="loginModal">
+        <div id="loginBox">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username"><br>
+            <input type="password" id="password" placeholder="Password"><br><br>
+            <button onclick="checkLogin()">Login</button>
+        </div>
+    </div>
+
+    <div id="header">
+        <img id="logo" src="./add-ons/HP_logo.png" alt="Logo">
+        <h2>Enter Your Number</h2>
+        <div id="clock-container"><span id="clock"></span></div>
+    </div>
+
+    <div id="input-container">
+        <input type="number" id="userNumber" placeholder="Enter number">
+        <button id="submitButton" onclick="saveNumber()">Submit</button>
+        <button id="downloadButton" onclick="downloadExcel()">Download Excel</button>
+        <button id="clearButton" onclick="clearNumbers()">Clear All</button>
+    </div>
+
+    <p id="message"></p>
+
+    <h3>Stored Numbers</h3>
+    <table>
+        <thead>
+            <tr><th>Number</th><th>Timestamp</th></tr>
+        </thead>
+        <tbody id="dataTable"></tbody>
+    </table>
+
+    <!-- Logout Button -->
+    <button id="logoutButton" onclick="logout()">Logout</button>
+
+    <!-- Link to External JavaScript -->
+    <script src="./script/main.js"></script>
+
+</body>
+</html>
