@@ -86,7 +86,9 @@ function loadNumbers() {
 // EXCEL DOWNLOAD FUNCTION
 function downloadExcel() {
     let numbers = JSON.parse(localStorage.getItem("numbers")) || [];
-    if (numbers.length === 0) {
+    let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
+
+    if (numbers.length === 0 && archivedNumbers.length === 0) {
         alert("No data to download.");
         return;
     }
@@ -95,29 +97,57 @@ function downloadExcel() {
     let month = String(now.getMonth() + 1).padStart(2, '0');
     let day = String(now.getDate()).padStart(2, '0');
     let year = String(now.getFullYear()).slice(-2);
-    let hour = String(now.getHours()).padStart(2, '0');
 
-    let fileName = `Login_${month}${day}${year}${hour}.xlsx`;
+    let fileName = `Login_${month}${day}${year}.xlsx`; // Removed hour
 
     let wb = XLSX.utils.book_new();
-    let ws_data = [["Number", "Timestamp"]];
 
-    numbers.forEach(item => {
-        ws_data.push([item.number, item.timestamp]);
+    // Format the date as a title
+    let formattedDate = `${month}/${day}/${now.getFullYear()}`;
+    let combinedData = [[formattedDate], ["Number", "Timestamp"]]; // First row = date, second row = headers
+
+    // Append archived numbers first
+    archivedNumbers.forEach(item => {
+        combinedData.push([item.number, item.timestamp]);
     });
 
-    let ws = XLSX.utils.aoa_to_sheet(ws_data);
+    // Append ongoing numbers
+    numbers.forEach(item => {
+        combinedData.push([item.number, item.timestamp]);
+    });
+
+    let ws = XLSX.utils.aoa_to_sheet(combinedData);
+
+    // Merge the first row for the date title
+    ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
+
+    // Style the date title (optional)
+    ws["A1"].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: "center" } };
+
     XLSX.utils.book_append_sheet(wb, ws, "Numbers");
+
+    // Generate Excel File
     XLSX.writeFile(wb, fileName);
 }
+
+
 
 // CLEAR NUMBERS FUNCTION
 function clearNumbers() {
     if (confirm("Are you sure you want to clear all saved numbers?")) {
+        let numbers = JSON.parse(localStorage.getItem("numbers")) || [];
+        
+        // Save numbers to "archivedNumbers"
+        let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
+        archivedNumbers = archivedNumbers.concat(numbers);
+        localStorage.setItem("archivedNumbers", JSON.stringify(archivedNumbers));
+
+        // Clear only the table, not the saved data
         localStorage.removeItem("numbers");
         loadNumbers();
     }
 }
+
 
 // ENTER KEY EVENT FOR SUBMISSION
 document.getElementById("userNumber").addEventListener("keypress", function(event) {
