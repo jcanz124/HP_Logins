@@ -69,12 +69,19 @@ function loadNumbers() {
     numbers.forEach(item => {
         let timestamp = new Date(item.timestamp);
         let minutes = timestamp.getMinutes();
-        let rowClass = minutes >= 35 ? "red" : "green";
+        let number = parseInt(item.number, 10); // Ensure number is treated as an integer
+        let rowClass = "green"; // Default green
 
-        let row = `<tr class="${rowClass}"><td>${item.number}</td><td>${item.timestamp}</td></tr>`;
+        // Condition for red: If minutes >= 35 OR (minutes > 30 and number >= 20)
+        if (minutes >= 35 || (minutes > 30 && number >= 20)) {
+            rowClass = "red";
+        }
+
+        let row = `<tr class="${rowClass}"><td>${number}</td><td>${item.timestamp}</td></tr>`;
         table.innerHTML += row;
     });
 }
+
 
 // EXCEL DOWNLOAD FUNCTION
 function downloadExcel() {
