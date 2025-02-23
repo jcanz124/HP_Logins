@@ -17,7 +17,6 @@ function checkLogin() {
 
 
 // LOGOUT FUNCTION
-// LOGOUT FUNCTION
 function logout() {
     localStorage.setItem("isLoggedIn", "false"); // Set login state to false
     document.getElementById("loginModal").style.display = "flex"; // Show login modal again
