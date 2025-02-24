@@ -95,7 +95,7 @@ button:hover {
     position: relative;
 }
 
-/* Fix for table header overlapping login modal */
+/* Fix for table header overlapping other elements */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -112,7 +112,7 @@ th {
     color: white;
     position: sticky;
     top: 0;
-    z-index: 1000; /* Ensures the header stays above table content */
+    z-index: 1000;
 }
 
 tbody tr:nth-child(even) {
@@ -151,7 +151,7 @@ tbody tr:nth-child(even) {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 2000; /* Ensures it stays above other elements */
+    z-index: 2000;
 }
 
 #loginBox {
@@ -193,11 +193,11 @@ tbody tr:nth-child(even) {
     border-radius: 8px;
 }
 
-/* Modal Styles */
+/* MODAL STYLES */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 3000; /* Fixed modal position above table */
     left: 0;
     top: 0;
     width: 100%;
@@ -207,6 +207,7 @@ tbody tr:nth-child(even) {
     align-items: center;
 }
 
+/* SAVED DATA MODAL */
 #savedDataBox {
     background: white;
     padding: 20px;
@@ -214,9 +215,41 @@ tbody tr:nth-child(even) {
     width: 60%;
     max-width: 500px;
     text-align: center;
+    z-index: 3100; /* Ensures it appears above everything */
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
-/* Saved Data Box Buttons */
+/* SCROLLABLE TABLE INSIDE MODAL */
+#savedDataBox .table-container {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Fix for saved data table */
+#savedDataBox table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#savedDataBox th, #savedDataBox td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#savedDataBox th {
+    background-color: #007bff;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 3101; /* Ensures it stays above the table rows */
+}
+
+/* BUTTON STYLES */
 #savedDataBox button {
     width: 100%;
     padding: 10px;
