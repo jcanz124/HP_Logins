@@ -92,7 +92,10 @@ function downloadExcel() {
         alert("No data to download.");
         return;
     }
-
+    else
+    {
+        alert("End of the Day for logins, Deleting all of the saved Data");
+    }
     let now = new Date();
     let month = String(now.getMonth() + 1).padStart(2, '0');
     let day = String(now.getDate()).padStart(2, '0');
@@ -128,6 +131,7 @@ function downloadExcel() {
 
     // Generate Excel File
     XLSX.writeFile(wb, fileName);
+    localStorage.removeItem("archivedNumbers");
 }
 
 
