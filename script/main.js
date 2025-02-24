@@ -108,33 +108,35 @@ function closeSavedData() {
 
 // EXCEL DOWNLOAD FUNCTION
 function downloadExcel() {
-    let numbers = JSON.parse(localStorage.getItem("numbers")) || [];
-    let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
+    clearNumbers(); 
+    setTimeout(() => {
+        let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
 
-    if (numbers.length === 0 && archivedNumbers.length === 0) {
-        alert("No data to download.");
-        return;
-    }
+        if (archivedNumbers.length === 0) {
+            alert("No data to download.");
+            return;
+        }
 
-    let now = new Date();
-    let month = String(now.getMonth() + 1).padStart(2, '0');
-    let day = String(now.getDate()).padStart(2, '0');
-    let year = String(now.getFullYear()).slice(-2);
+        let now = new Date();
+        let month = String(now.getMonth() + 1).padStart(2, '0');
+        let day = String(now.getDate()).padStart(2, '0');
+        let year = String(now.getFullYear()).slice(-2);
 
-    let fileName = `Login_${month}${day}${year}.xlsx`;
+        let fileName = `Login_${month}${day}${year}.xlsx`;
 
-    let wb = XLSX.utils.book_new();
-    let formattedDate = `${month}/${day}/${now.getFullYear()}`;
-    let combinedData = [[formattedDate], ["Number", "Timestamp"]];
+        let wb = XLSX.utils.book_new();
+        let formattedDate = `${month}/${day}/${now.getFullYear()}`;
+        let combinedData = [[formattedDate], ["Number", "Timestamp"]];
 
-    archivedNumbers.forEach(item => combinedData.push([item.number, item.timestamp]));
-    numbers.forEach(item => combinedData.push([item.number, item.timestamp]));
+        archivedNumbers.forEach(item => combinedData.push([item.number, item.timestamp]));
 
-    let ws = XLSX.utils.aoa_to_sheet(combinedData);
-    XLSX.utils.book_append_sheet(wb, ws, "Numbers");
-    XLSX.writeFile(wb, fileName);
-    localStorage.removeItem("archivedNumbers");
-    logout()
+        let ws = XLSX.utils.aoa_to_sheet(combinedData);
+        XLSX.utils.book_append_sheet(wb, ws, "Numbers");
+        XLSX.writeFile(wb, fileName);
+
+        localStorage.removeItem("archivedNumbers");
+        logout();
+    }, 100);
 }
 
 // CLEAR NUMBERS FUNCTION
