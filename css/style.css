@@ -36,11 +36,6 @@ button:hover {
     opacity: 0.8;
 }
 
-#downloadButton {
-    background-color: #28A745;
-    color: white;
-}
-
 #clearButton {
     background-color: #DC3545;
     color: white;
@@ -95,7 +90,6 @@ button:hover {
     position: relative;
 }
 
-/* Fix for table header overlapping other elements */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -197,7 +191,7 @@ tbody tr:nth-child(even) {
 .modal {
     display: none;
     position: fixed;
-    z-index: 3000; /* Fixed modal position above table */
+    z-index: 3000;
     left: 0;
     top: 0;
     width: 100%;
@@ -215,7 +209,7 @@ tbody tr:nth-child(even) {
     width: 60%;
     max-width: 500px;
     text-align: center;
-    z-index: 3100; /* Ensures it appears above everything */
+    z-index: 
     position: relative;
     max-height: 80vh;
     overflow-y: auto;
@@ -229,7 +223,6 @@ tbody tr:nth-child(even) {
     margin-bottom: 10px;
 }
 
-/* Fix for saved data table */
 #savedDataBox table {
     width: 100%;
     border-collapse: collapse;
@@ -246,7 +239,7 @@ tbody tr:nth-child(even) {
     color: white;
     position: sticky;
     top: 0;
-    z-index: 3101; /* Ensures it stays above the table rows */
+    z-index: 3101; 
 }
 
 /* BUTTON STYLES */
