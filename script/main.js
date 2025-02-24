@@ -152,3 +152,20 @@ document.getElementById("userNumber").addEventListener("keypress", function(even
         saveNumber();
     }
 });
+
+function checkTimeAndDownload() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+
+    // Check if it's exactly 11:00 PM (23:00)
+    if (hours === 23 && minutes === 0) {
+        downloadExcel();
+    }
+    else{
+        console.log("Time as of now: " + hours);
+    }
+}
+
+// Check every minute
+setInterval(checkTimeAndDownload, 60000);
