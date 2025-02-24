@@ -145,3 +145,10 @@ function clearNumbers() {
         loadNumbers();
     }
 }
+// ENTER KEY EVENT FOR SUBMISSION
+document.getElementById("userNumber").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        saveNumber();
+    }
+});
