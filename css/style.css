@@ -81,15 +81,24 @@ button:hover {
 }
 
 /* Table Styling */
-table {
+.table-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
     width: 60%;
     margin: auto;
-    border-collapse: collapse;
-    margin-top: 20px;
     background: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
+    position: relative;
+}
+
+/* Fix for table header overlapping login modal */
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
 th, td {
@@ -101,6 +110,9 @@ th, td {
 th {
     background-color: #007BFF;
     color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensures the header stays above table content */
 }
 
 tbody tr:nth-child(even) {
@@ -139,6 +151,7 @@ tbody tr:nth-child(even) {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 2000; /* Ensures it stays above other elements */
 }
 
 #loginBox {
@@ -147,6 +160,7 @@ tbody tr:nth-child(even) {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 2001;
 }
 
 #loginBox input {
@@ -178,7 +192,8 @@ tbody tr:nth-child(even) {
     font-size: 16px;
     border-radius: 8px;
 }
-/* MODAL STYLES */
+
+/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -201,33 +216,7 @@ tbody tr:nth-child(even) {
     text-align: center;
 }
 
-/* SCROLLABLE TABLE */
-.table-container {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background-color: #007bff;
-    color: white;
-    position: sticky;
-    top: 0;
-}
-
-/* BUTTON STYLES */
+/* Saved Data Box Buttons */
 #savedDataBox button {
     width: 100%;
     padding: 10px;
@@ -237,4 +226,3 @@ th {
     cursor: pointer;
     border-radius: 5px;
 }
-
