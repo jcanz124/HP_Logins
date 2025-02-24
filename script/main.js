@@ -166,7 +166,7 @@ function checkTimeAndDownload() {
     let hours = now.getHours();
     let minutes = now.getMinutes();
 
-    if (hours === 23 && minutes === 0) {
+    if (hours === 23) {
         console.log("Auto-downloading Excel at 11 PM!");
         downloadExcel();
     } else {
