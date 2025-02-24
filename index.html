@@ -18,6 +18,25 @@
         </div>
     </div>
 
+    <!-- Saved Data Modal -->
+    <div id="savedDataModal" class="modal">
+        <div id="savedDataBox">
+            <h2>Saved Data</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="savedDataTable"></tbody>
+                </table>
+            </div>
+            <button onclick="closeSavedData()">Close</button>
+        </div>
+    </div>
+
     <div id="container">
         <header id="header">
             <img id="logo" src="./add-ons/HP_logo.png" alt="Logo">
@@ -30,6 +49,7 @@
             <button id="submitButton" onclick="saveNumber()">Submit</button>
             <button id="downloadButton" onclick="downloadExcel()">[EOD]Download Excel</button>
             <button id="clearButton" onclick="clearNumbers()">Save</button>
+            <button id="savedDataButton" onclick="showSavedData()">Saved Data</button>
         </div>
 
         <p id="message"></p>
@@ -43,13 +63,10 @@
         </table>
     </div>
 
-    <!-- Logout Button -->
     <button id="logoutButton" onclick="logout()">Logout</button>
 
-    <!-- Link to External JavaScript -->
     <script src="./script/main.js"></script>
 
-    <!-- Register Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js')

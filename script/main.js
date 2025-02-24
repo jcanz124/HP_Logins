@@ -6,7 +6,7 @@ function checkLogin() {
     if (user === "Manager" && pass === "Manager1234") {
         localStorage.setItem("isLoggedIn", "true");
         document.getElementById("loginModal").style.display = "none";
-        
+
         // Clear username and password fields after successful login
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
@@ -15,13 +15,11 @@ function checkLogin() {
     }
 }
 
-
 // LOGOUT FUNCTION
 function logout() {
     localStorage.setItem("isLoggedIn", "false"); // Set login state to false
     document.getElementById("loginModal").style.display = "flex"; // Show login modal again
 }
-
 
 // CHECK LOGIN STATE ON PAGE LOAD
 window.onload = function () {
@@ -82,6 +80,28 @@ function loadNumbers() {
     });
 }
 
+// SHOW SAVED DATA MODAL FUNCTION
+function showSavedData() {
+    let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
+    let table = document.getElementById("savedDataTable");
+    table.innerHTML = "";
+
+    if (archivedNumbers.length === 0) {
+        table.innerHTML = "<tr><td colspan='2'>No archived data available.</td></tr>";
+    } else {
+        archivedNumbers.forEach(item => {
+            let row = `<tr><td>${item.number}</td><td>${item.timestamp}</td></tr>`;
+            table.innerHTML += row;
+        });
+    }
+
+    document.getElementById("savedDataModal").style.display = "flex"; // Show modal
+}
+
+// CLOSE SAVED DATA MODAL FUNCTION
+function closeSavedData() {
+    document.getElementById("savedDataModal").style.display = "none";
+}
 
 // EXCEL DOWNLOAD FUNCTION
 function downloadExcel() {
@@ -92,71 +112,36 @@ function downloadExcel() {
         alert("No data to download.");
         return;
     }
-    else
-    {
-        alert("End of the Day for logins, Deleting all of the saved Data");
-    }
+
     let now = new Date();
     let month = String(now.getMonth() + 1).padStart(2, '0');
     let day = String(now.getDate()).padStart(2, '0');
     let year = String(now.getFullYear()).slice(-2);
 
-    let fileName = `Login_${month}${day}${year}.xlsx`; // Removed hour
+    let fileName = `Login_${month}${day}${year}.xlsx`;
 
     let wb = XLSX.utils.book_new();
-
-    // Format the date as a title
     let formattedDate = `${month}/${day}/${now.getFullYear()}`;
-    let combinedData = [[formattedDate], ["Number", "Timestamp"]]; // First row = date, second row = headers
+    let combinedData = [[formattedDate], ["Number", "Timestamp"]];
 
-    // Append archived numbers first
-    archivedNumbers.forEach(item => {
-        combinedData.push([item.number, item.timestamp]);
-    });
-
-    // Append ongoing numbers
-    numbers.forEach(item => {
-        combinedData.push([item.number, item.timestamp]);
-    });
+    archivedNumbers.forEach(item => combinedData.push([item.number, item.timestamp]));
+    numbers.forEach(item => combinedData.push([item.number, item.timestamp]));
 
     let ws = XLSX.utils.aoa_to_sheet(combinedData);
-
-    // Merge the first row for the date title
-    ws["!merges"] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
-
-    // Style the date title (optional)
-    ws["A1"].s = { font: { bold: true, sz: 14 }, alignment: { horizontal: "center" } };
-
     XLSX.utils.book_append_sheet(wb, ws, "Numbers");
-
-    // Generate Excel File
     XLSX.writeFile(wb, fileName);
     localStorage.removeItem("archivedNumbers");
 }
-
-
 
 // CLEAR NUMBERS FUNCTION
 function clearNumbers() {
     if (confirm("Are you sure you want to clear all saved numbers?")) {
         let numbers = JSON.parse(localStorage.getItem("numbers")) || [];
-        
-        // Save numbers to "archivedNumbers"
         let archivedNumbers = JSON.parse(localStorage.getItem("archivedNumbers")) || [];
         archivedNumbers = archivedNumbers.concat(numbers);
         localStorage.setItem("archivedNumbers", JSON.stringify(archivedNumbers));
 
-        // Clear only the table, not the saved data
         localStorage.removeItem("numbers");
         loadNumbers();
     }
 }
-
-
-// ENTER KEY EVENT FOR SUBMISSION
-document.getElementById("userNumber").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        saveNumber();
-    }
-});
