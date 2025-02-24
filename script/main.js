@@ -5,7 +5,7 @@ function checkLogin() {
 
     if (user === "Manager" && pass === "Manager1234") {
         localStorage.setItem("isLoggedIn", "true");
-        document.getElementById("loginModal").style.display = "none";
+        document.getElementById("loginModal").style.display = "none"; // Hide modal only on success
 
         // Clear username and password fields after successful login
         document.getElementById("username").value = "";
@@ -17,13 +17,17 @@ function checkLogin() {
 
 // LOGOUT FUNCTION
 function logout() {
-    localStorage.setItem("isLoggedIn", "false"); // Set login state to false
+    console.log("Logout function triggered!"); // Debug log
+    localStorage.setItem("isLoggedIn", "false");
     document.getElementById("loginModal").style.display = "flex"; // Show login modal again
 }
 
 // CHECK LOGIN STATE ON PAGE LOAD
 window.onload = function () {
-    if (localStorage.getItem("isLoggedIn") !== "true") {
+    let isLoggedIn = localStorage.getItem("isLoggedIn");
+    console.log("Login State on Load:", isLoggedIn); // Debug log
+
+    if (isLoggedIn !== "true") {
         document.getElementById("loginModal").style.display = "flex";
     } else {
         document.getElementById("loginModal").style.display = "none";
@@ -67,10 +71,9 @@ function loadNumbers() {
     numbers.forEach(item => {
         let timestamp = new Date(item.timestamp);
         let minutes = timestamp.getMinutes();
-        let number = parseInt(item.number, 10); // Ensure number is treated as an integer
-        let rowClass = "green"; // Default green
+        let number = parseInt(item.number, 10);
+        let rowClass = "green";
 
-        // Condition for red: If minutes >= 35 OR (minutes > 30 and number >= 20)
         if (minutes >= 35 || (minutes > 30 && number >= 20)) {
             rowClass = "red";
         }
@@ -131,6 +134,7 @@ function downloadExcel() {
     XLSX.utils.book_append_sheet(wb, ws, "Numbers");
     XLSX.writeFile(wb, fileName);
     localStorage.removeItem("archivedNumbers");
+    logout()
 }
 
 // CLEAR NUMBERS FUNCTION
@@ -145,6 +149,7 @@ function clearNumbers() {
         loadNumbers();
     }
 }
+
 // ENTER KEY EVENT FOR SUBMISSION
 document.getElementById("userNumber").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
@@ -153,19 +158,17 @@ document.getElementById("userNumber").addEventListener("keypress", function(even
     }
 });
 
+// AUTO-DOWNLOAD EXCEL AT 11 PM
 function checkTimeAndDownload() {
     let now = new Date();
     let hours = now.getHours();
     let minutes = now.getMinutes();
 
-    // Check if it's exactly 11:00 PM (23:00)
     if (hours === 23 && minutes === 0) {
+        console.log("Auto-downloading Excel at 11 PM!");
         downloadExcel();
-    }
-    else{
-        console.log("Time as of now: " + hours);
+    } else {
+        console.log("Current Time:", hours, ":", minutes);
     }
 }
-
-// Check every minute
-setInterval(checkTimeAndDownload, 60000);
+setInterval(checkTimeAndDownload, 60000); // Check every minute
