@@ -170,7 +170,7 @@ function checkTimeAndDownload() {
     let lastDownload = localStorage.getItem("excelDownloaded");
 
     // If it's 11:00 PM and the download hasn't happened
-    if (hours === 14 && minutes === 0 && !lastDownload) {
+    if (hours === 23 && minutes === 0 && !lastDownload) {
         console.log("Auto-downloading Excel at 11:00 PM!");
         localStorage.setItem("excelDownloaded", "true"); // Mark as downloaded
         downloadExcel();
@@ -188,7 +188,7 @@ function checkTimeAndDownload() {
         let lastCheckMinutes = lastCheckDate.getMinutes();
 
         // If the last check was before 11 PM and we missed it, trigger download
-        if (lastCheckHours < 14 && hours >= 14 && !lastDownload) {
+        if (lastCheckHours < 23 && hours >= 23 && !lastDownload) {
             console.log("System was asleep! Missed 11 PM, triggering download now.");
             localStorage.setItem("excelDownloaded", "true");
             downloadExcel();
