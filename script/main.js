@@ -160,17 +160,61 @@ document.getElementById("userNumber").addEventListener("keypress", function(even
     }
 });
 
-// AUTO-DOWNLOAD EXCEL AT 11 PM
+// AUTO-DOWNLOAD EXCEL AT 11 PM (HANDLES SLEEP MODE)
 function checkTimeAndDownload() {
     let now = new Date();
     let hours = now.getHours();
     let minutes = now.getMinutes();
 
-    if (hours === 23) {
-        console.log("Auto-downloading Excel at 11 PM!");
+    let lastCheck = localStorage.getItem("lastCheckTime");
+    let lastDownload = localStorage.getItem("excelDownloaded");
+
+    // If it's 11:00 PM and the download hasn't happened
+    if (hours === 14 && minutes === 0 && !lastDownload) {
+        console.log("Auto-downloading Excel at 11:00 PM!");
+        localStorage.setItem("excelDownloaded", "true"); // Mark as downloaded
         downloadExcel();
-    } else {
-        console.log("Current Time:", hours, ":", minutes);
+
+        // Close the web app after 5 seconds
+        setTimeout(() => {
+            window.close();
+        }, 5000);
+    }
+
+    // HANDLE MISSED DOWNLOAD DUE TO SLEEP MODE
+    if (lastCheck) {
+        let lastCheckDate = new Date(lastCheck);
+        let lastCheckHours = lastCheckDate.getHours();
+        let lastCheckMinutes = lastCheckDate.getMinutes();
+
+        // If the last check was before 11 PM and we missed it, trigger download
+        if (lastCheckHours < 14 && hours >= 14 && !lastDownload) {
+            console.log("System was asleep! Missed 11 PM, triggering download now.");
+            localStorage.setItem("excelDownloaded", "true");
+            downloadExcel();
+            setTimeout(() => {
+                window.close();
+            }, 5000);
+        }
+    }
+
+    // Update last check time
+    localStorage.setItem("lastCheckTime", now);
+}
+
+// RESET DOWNLOAD FLAG AT MIDNIGHT
+function resetDownloadFlag() {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+
+    if (hours === 0 && minutes === 0) {
+        localStorage.removeItem("excelDownloaded"); // Reset for the next day
+        console.log("Download flag reset.");
     }
 }
-setInterval(checkTimeAndDownload, 60000); // Check every minute
+
+// Check every minute
+setInterval(checkTimeAndDownload, 60000);
+setInterval(resetDownloadFlag, 60000);
+
