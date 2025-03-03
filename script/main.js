@@ -74,7 +74,7 @@ function loadNumbers() {
         let number = parseInt(item.number, 10);
         let rowClass = "green";
 
-        if (minutes >= 35 || (minutes > 30 && number >= 20)) {
+        if (minutes >= 40 || (minutes > 35 && number >= 20)) {
             rowClass = "red";
         }
 
